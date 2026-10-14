@@ -1,7 +1,8 @@
 // services/api.js — REST + WebSocket data layer
 
-const BASE = '/api'
-const WS_URL = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}/ws/live`
+const APP_BASE = location.pathname.startsWith('/dashboard') ? '/dashboard' : ''
+const BASE = `${APP_BASE}/api`
+const WS_URL = `${location.protocol === 'https:' ? 'wss' : 'ws'}://${location.host}${APP_BASE}/ws/live`
 
 export async function fetchStatus() {
   const r = await fetch(`${BASE}/status`)

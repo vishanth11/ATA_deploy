@@ -28,15 +28,36 @@ export default function Dashboard() {
   const riskLevel = safety?.risk_level ?? status?.risk_level ?? 'UNKNOWN'
   const method = methodLabel(status?.current_ai_method)
   const recentDecisions = decisions?.slice(0, 5) ?? []
+  const systemStatus = status?.system_status ?? 'stopped'
 
   return (
     <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-bold text-white">Dashboard</h2>
-        <p className="text-sm text-slate-400">Real-time traffic system overview</p>
+      <div className="rounded-lg border border-slate-700/60 bg-slate-900/70 p-5 shadow-xl shadow-slate-950/20 backdrop-blur">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase text-cyan-300">Adaptive Signal Control</p>
+            <h2 className="mt-1 text-2xl font-bold text-white">Live Traffic Intelligence Dashboard</h2>
+            <p className="mt-1 max-w-3xl text-sm text-slate-400">
+              Unified view of junction state, safety approvals, emergency preemption, and AI signal decisions.
+            </p>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-xs">
+            <div className="rounded-lg border border-slate-700/70 bg-slate-950/60 px-3 py-2">
+              <span className="block text-slate-500">System</span>
+              <strong className="text-slate-100">{systemStatus}</strong>
+            </div>
+            <div className="rounded-lg border border-slate-700/70 bg-slate-950/60 px-3 py-2">
+              <span className="block text-slate-500">WebSocket</span>
+              <strong className={wsStatus === 'connected' ? 'text-emerald-300' : 'text-amber-300'}>{wsStatus}</strong>
+            </div>
+            <div className="rounded-lg border border-slate-700/70 bg-slate-950/60 px-3 py-2">
+              <span className="block text-slate-500">Risk</span>
+              <strong className="text-slate-100">{riskLevel}</strong>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Summary cards */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <MetricCard
           label="Active Junctions"
@@ -70,7 +91,6 @@ export default function Dashboard() {
         />
       </div>
 
-      {/* Junction overview grid */}
       <Card title="Junction Overview">
         {!junctions?.length ? (
           <EmptyState message={wsStatus === 'disconnected' ? 'Backend unavailable' : 'No junctions discovered yet'} />
@@ -83,7 +103,6 @@ export default function Dashboard() {
         )}
       </Card>
 
-      {/* Recent decisions */}
       <Card title="Recent AI Decisions">
         {!recentDecisions.length ? (
           <EmptyState message="No decisions recorded yet" />
@@ -102,7 +121,7 @@ export default function Dashboard() {
 function JunctionMiniCard({ junction }) {
   const safe = junction.safety_approved
   return (
-    <div className="rounded-lg border border-slate-700/50 bg-slate-800/30 p-3">
+    <div className="rounded-lg border border-slate-700/60 bg-slate-950/40 p-3 transition hover:border-cyan-400/30 hover:bg-slate-900/70">
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-semibold text-white">{junction.junction_id}</span>
         {safe === true && <StatusBadge status="SAFE" />}
@@ -125,7 +144,7 @@ function JunctionMiniCard({ junction }) {
           </span>
         </div>
         {junction.emergency_active && (
-          <div className="text-red-400 font-medium">⚠ Emergency Active</div>
+          <div className="font-medium text-red-400">Emergency Active</div>
         )}
       </div>
     </div>

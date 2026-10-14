@@ -13,20 +13,21 @@ import Metrics from './pages/Metrics'
 import SystemStatus from './pages/SystemStatus'
 import Config from './pages/Config'
 
+const ROUTER_BASE = window.location.pathname.startsWith('/dashboard') ? '/dashboard' : '/'
+
 export default function App() {
   const [collapsed, setCollapsed] = useState(false)
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={ROUTER_BASE}>
       <LiveDataProvider>
-        <div className="min-h-screen bg-slate-950 text-white">
+        <div className="min-h-screen bg-slate-950 text-white app-shell">
           <TopBar />
           <Sidebar collapsed={collapsed} onToggle={() => setCollapsed(c => !c)} />
           <main
-            className="pt-[60px] transition-all duration-200"
-            style={{ marginLeft: collapsed ? 56 : 224 }}
+            className={`pt-[64px] transition-all duration-200 ${collapsed ? 'md:ml-14' : 'md:ml-56'}`}
           >
-            <div className="p-6">
+            <div className="p-4 sm:p-6 lg:p-8">
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/junctions" element={<Junctions />} />

@@ -22,7 +22,7 @@ export function StatusBadge({ status }) {
   }
   const cls = map[status] ?? 'bg-slate-500/20 text-slate-400 border-slate-500/30'
   return (
-    <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${cls}`}>
+    <span className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium ${cls}`}>
       {status}
     </span>
   )
@@ -30,21 +30,25 @@ export function StatusBadge({ status }) {
 
 export function MetricCard({ label, value, sub, icon: Icon, accent = 'blue' }) {
   const accents = {
-    blue: 'border-blue-500/30 bg-blue-500/5',
-    green: 'border-emerald-500/30 bg-emerald-500/5',
-    yellow: 'border-yellow-500/30 bg-yellow-500/5',
-    red: 'border-red-500/30 bg-red-500/5',
-    purple: 'border-purple-500/30 bg-purple-500/5',
+    blue: 'border-cyan-400/25 bg-cyan-400/8 text-cyan-300',
+    green: 'border-emerald-400/25 bg-emerald-400/8 text-emerald-300',
+    yellow: 'border-amber-400/25 bg-amber-400/8 text-amber-300',
+    red: 'border-rose-400/25 bg-rose-400/8 text-rose-300',
+    purple: 'border-violet-400/25 bg-violet-400/8 text-violet-300',
   }
   return (
-    <div className={`rounded-xl border p-4 ${accents[accent] ?? accents.blue}`}>
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="text-xs text-slate-400 uppercase tracking-wider mb-1">{label}</p>
-          <p className="text-2xl font-bold text-white">{value ?? '—'}</p>
-          {sub && <p className="text-xs text-slate-500 mt-1">{sub}</p>}
+    <div className={`group rounded-lg border p-4 shadow-lg shadow-slate-950/20 backdrop-blur ${accents[accent] ?? accents.blue}`}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="mb-1 text-[11px] font-semibold uppercase text-slate-400">{label}</p>
+          <p className="break-words text-2xl font-bold leading-tight text-white">{value ?? '—'}</p>
+          {sub && <p className="mt-1 text-xs text-slate-500">{sub}</p>}
         </div>
-        {Icon && <Icon className="w-5 h-5 text-slate-500 mt-1" />}
+        {Icon && (
+          <div className="rounded-md border border-white/10 bg-white/5 p-2 text-current">
+            <Icon className="h-4 w-4" />
+          </div>
+        )}
       </div>
     </div>
   )
@@ -52,14 +56,14 @@ export function MetricCard({ label, value, sub, icon: Icon, accent = 'blue' }) {
 
 export function Card({ title, children, className = '' }) {
   return (
-    <div className={`rounded-xl border border-slate-700/50 bg-slate-800/50 ${className}`}>
+    <section className={`rounded-lg border border-slate-700/60 bg-slate-900/70 shadow-xl shadow-slate-950/20 backdrop-blur ${className}`}>
       {title && (
-        <div className="px-4 py-3 border-b border-slate-700/50">
-          <h3 className="text-sm font-semibold text-slate-200">{title}</h3>
+        <div className="border-b border-slate-700/50 px-4 py-3">
+          <h3 className="text-sm font-semibold text-slate-100">{title}</h3>
         </div>
       )}
       <div className="p-4">{children}</div>
-    </div>
+    </section>
   )
 }
 

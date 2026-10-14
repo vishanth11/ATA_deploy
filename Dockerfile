@@ -50,5 +50,5 @@ USER user
 # Hugging Face Spaces exposes port 7860
 EXPOSE 7860
 
-# Launch FastAPI dashboard with REST API, WebSockets, and React SPA
-CMD ["uvicorn", "dashboard_api:app", "--host", "0.0.0.0", "--port", "7860"]
+# Launch the FastAPI dashboard with REST API, WebSockets, and React SPA
+CMD ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "7860"]
