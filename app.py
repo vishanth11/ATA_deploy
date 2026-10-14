@@ -23,6 +23,22 @@ except Exception:
 
 from dashboard_api import app as fastapi_app
 
+try:
+    import spaces
+except ImportError:
+    class spaces:
+        @staticmethod
+        def GPU(fn=None, duration=120):
+            if fn is None:
+                return lambda function: function
+            return fn
+
+
+@spaces.GPU(duration=120)
+def zero_gpu_pipeline_worker(value: str = "") -> str:
+    """Register the Space's ZeroGPU worker with Hugging Face's supervisor."""
+    return value
+
 
 with gr.Blocks(title="AI Traffic Adaptation System") as demo:
     gr.HTML(
