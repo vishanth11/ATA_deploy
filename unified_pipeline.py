@@ -80,22 +80,23 @@ def get_device():
         0     -> NVIDIA CUDA GPU
         "cpu" -> CPU
     """
+    # 1. Hugging Face Spaces / cloud container safe mode
+    if os.environ.get("SPACE_ID") or os.environ.get("SPACES_ZERO_GPU") or os.environ.get("FORCE_CPU") == "1":
+        print("[DEVICE] Cloud container / Hugging Face Space detected -> Using CPU.")
+        return "cpu"
 
-    if torch.cuda.is_available():
-
-        print("[DEVICE] CUDA GPU detected.")
-
-        print(
-            f"[DEVICE] GPU: "
-            f"{torch.cuda.get_device_name(0)}"
-        )
-
-        return 0
+    # 2. Local machine GPU check
+    try:
+        if torch.cuda.is_available():
+            name = torch.cuda.get_device_name(0)
+            print(f"[DEVICE] CUDA GPU detected: {name}")
+            return 0
+    except Exception as exc:
+        print(f"[DEVICE] CUDA check caught ({exc}) -> using CPU.")
+        return "cpu"
 
     print("[DEVICE] CUDA not available.")
-
     print("[DEVICE] Using CPU.")
-
     return "cpu"
 
 
