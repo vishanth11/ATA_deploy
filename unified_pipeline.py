@@ -15,12 +15,16 @@ Device:
 """
 
 from pathlib import Path
-from ultralytics import YOLO
 from collections import defaultdict
 import json
 import sys
 import os
 import torch
+
+try:
+    from ultralytics import YOLO
+except ImportError:  # Keep the dashboard available when video extras are absent.
+    YOLO = None
 
 
 # ============================================================
@@ -265,6 +269,12 @@ def run_pipeline(
     mode: str,
     output_path: str = None
 ):
+
+    if YOLO is None:
+        raise RuntimeError(
+            "Video analysis requires the optional 'ultralytics' package. "
+            "Install the project requirements to enable it."
+        )
 
     print(
         f"\n--- Phase 6 Unified Pipeline: "
