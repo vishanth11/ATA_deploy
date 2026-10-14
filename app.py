@@ -24,7 +24,7 @@ except Exception:
 from dashboard_api import app as fastapi_app
 
 
-with gr.Blocks(title="AI Traffic Adaptation System", theme=gr.themes.Soft(primary_hue="indigo")) as demo:
+with gr.Blocks(title="AI Traffic Adaptation System") as demo:
     gr.HTML(
         """
         <style>
@@ -48,4 +48,8 @@ app = demo.app
 
 
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=int(os.environ.get("PORT", "7860")))
+    demo.launch(
+        server_name="0.0.0.0",
+        server_port=int(os.environ.get("PORT", "7860")),
+        theme=gr.themes.Soft(primary_hue="indigo"),
+    )
