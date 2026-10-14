@@ -1,18 +1,51 @@
-"""ASGI entry point for local and Hugging Face Spaces deployments."""
+"""Hugging Face Gradio entry point with the React dashboard mounted in-app."""
 
 from __future__ import annotations
 
 import os
+import sys
+from pathlib import Path
 
-import uvicorn
+import gradio as gr
+from starlette.routing import Mount
 
-from dashboard_api import app
+ROOT = Path(__file__).resolve().parent
+sys.path.insert(0, str(ROOT))
+sys.path.insert(0, str(ROOT / "src"))
+sys.path.insert(0, str(ROOT / "src" / "near_miss"))
+
+try:
+    import src.near_miss as near_miss
+
+    sys.modules["near_miss"] = near_miss
+except Exception:
+    pass
+
+from dashboard_api import app as fastapi_app
+
+
+with gr.Blocks(title="AI Traffic Adaptation System", theme=gr.themes.Soft(primary_hue="indigo")) as demo:
+    gr.HTML(
+        """
+        <style>
+          .gradio-container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+          footer { display: none !important; }
+        </style>
+        <div style="width:100%;height:96vh;margin:0;padding:0;overflow:hidden;background:#020617">
+          <iframe src="/dashboard/" title="AI Traffic Adaptation Dashboard"
+            style="width:100%;height:100%;border:0;display:block"></iframe>
+        </div>
+        """
+    )
+
+# Gradio registers catch-all routes during Blocks construction. Put the mounted
+# application first so its API, static files, and WebSocket routes are matched.
+demo.app.router.routes.insert(
+    0,
+    Mount("/dashboard", app=fastapi_app, name="traffic_dashboard"),
+)
+app = demo.app
 
 
 if __name__ == "__main__":
-    uvicorn.run(
-        "app:app",
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", "7860")),
-        reload=False,
-    )
+    demo.launch(server_name="0.0.0.0", server_port=int(os.environ.get("PORT", "7860")))

@@ -3,8 +3,9 @@ title: AI Traffic Adaptation System
 emoji: 🚦
 colorFrom: blue
 colorTo: indigo
-sdk: docker
-app_port: 7860
+sdk: gradio
+sdk_version: 6.30.0
+app_file: app.py
 pinned: false
 license: mit
 ---
@@ -17,7 +18,7 @@ An advanced Machine Learning and Deep Learning solution for real-time intelligen
 
 ## 🚀 Live Demo & Production Architecture
 
-This repository is containerized and configured for one-click deployment to **Hugging Face Spaces** (Docker SDK) as well as local execution.
+This repository runs as a **Gradio Hugging Face Space** and can also be run locally or in Docker.
 
 - **Frontend**: React 19 + Tailwind CSS + Lucide Icons (Production SPA in `frontend/dist`)
 - **Backend API**: FastAPI (REST endpoints + real-time WebSocket telemetry at `/ws/live`)
@@ -48,7 +49,7 @@ Open your browser at: `http://localhost:7860`
 ## 🤗 Deploying to Hugging Face Spaces
 
 1. Create a new Space on [Hugging Face Spaces](https://huggingface.co/new-space).
-2. Choose **Docker** as the Space SDK (Blank).
+2. Choose **Gradio** as the Space SDK. The Space is configured for the Gradio runtime.
 3. Clone your Space repository or add it as a git remote:
    ```bash
    git remote add space https://huggingface.co/spaces/<YOUR_USERNAME>/<YOUR_SPACE_NAME>
@@ -57,7 +58,7 @@ Open your browser at: `http://localhost:7860`
    ```bash
    git push space main
    ```
-5. Hugging Face Spaces will automatically build the `Dockerfile` and launch your full-stack AI dashboard on port `7860`.
+5. Hugging Face Spaces will launch `app.py`; the React dashboard and its FastAPI APIs are mounted under `/dashboard`.
 
 ---
 
