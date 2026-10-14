@@ -1,0 +1,25 @@
+.venv/
+.venv-1/
+.venv-accident/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+dataset/*.parquet
+models/accident/best_detector.pth
+models/accident/final_detector.pth
+models/accident/phase5b_*.pth
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Temporary Outputs
+outputs/uploads/
+outputs/*.mp4
+data/uploads/
+
+# Debug and evaluation frames
+reports/figures/accident/debug/
+reports/figures/accident/test_examples/
+reports/figures/accident/ground_truth_examples/
