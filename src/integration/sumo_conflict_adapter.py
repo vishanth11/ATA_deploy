@@ -1,4 +1,7 @@
-import traci
+try:
+    import traci
+except ImportError:
+    traci = None
 
 from integration.conflict_graph import ConflictGraph
 from integration.sumo_topology_adapter import SUMOTopologyAdapter

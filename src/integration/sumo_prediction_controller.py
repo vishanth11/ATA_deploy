@@ -1,7 +1,10 @@
 import os
 import sys
 
-import traci
+try:
+    import traci
+except ImportError:
+    traci = None
 import numpy as np
 
 from integration.prediction_adapter import TrafficPredictionAdapter

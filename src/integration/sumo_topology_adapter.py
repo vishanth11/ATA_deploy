@@ -1,4 +1,7 @@
-import traci
+try:
+    import traci
+except ImportError:
+    traci = None
 
 from integration.topology import JunctionTopology
 

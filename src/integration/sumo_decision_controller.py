@@ -21,8 +21,10 @@ if SRC_ROOT not in sys.path:
     sys.path.insert(0, SRC_ROOT)
 if PROJECT_ROOT not in sys.path:
     sys.path.insert(0, PROJECT_ROOT)
-
-import traci
+try:
+    import traci
+except ImportError:
+    traci = None
 
 from integration.controller import TrafficController
 from integration.decision_engine import DecisionEngine
