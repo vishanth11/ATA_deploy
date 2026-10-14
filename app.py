@@ -46,10 +46,18 @@ with gr.Blocks(title="AI Traffic Adaptation System") as demo:
     gr.HTML(
         """
         <style>
-          .gradio-container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+          html, body, .gradio-container { 
+            max-width: 100% !important; 
+            width: 100% !important; 
+            height: 100% !important; 
+            margin: 0 !important; 
+            padding: 0 !important; 
+            overflow: hidden !important; 
+            background: #020617 !important; 
+          }
           footer { display: none !important; }
         </style>
-        <div style="width:100%;height:96vh;margin:0;padding:0;overflow:hidden;background:#020617">
+        <div style="width:100%;height:100vh;margin:0;padding:0;overflow:hidden;background:#020617">
           <iframe src="/dashboard/" title="AI Traffic Adaptation Dashboard"
             style="width:100%;height:100%;border:0;display:block"></iframe>
         </div>
