@@ -6,6 +6,8 @@ import os
 import sys
 from pathlib import Path
 
+os.environ.setdefault("GRADIO_SSR_MODE", "false")
+
 import gradio as gr
 from starlette.routing import Mount
 
