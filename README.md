@@ -46,6 +46,21 @@ Open your browser at: `http://localhost:7860`
 
 ---
 
+## ☁️ Deploying to AWS
+
+The included PowerShell script deploys the Docker image to Amazon ECR and creates a public Amazon ECS Express Mode service in **ap-south-1**. ECS Express Mode provisions the load balancer, health checks, networking, and scaling around the container. The service uses CPU-based Fargate tasks; video inference can be slower than on a GPU host.
+
+Prerequisites: AWS CLI v2 with ECS Express Mode support, Docker Desktop with the Linux engine running, an AWS identity allowed to create ECR repositories, IAM roles and policies, and ECS Express services, plus a default VPC in the selected region.
+
+```powershell
+aws login
+.\deploy\aws\deploy-ecs-express.ps1 -Region ap-south-1
+```
+
+The script creates an ECR repository and the two ECS service roles if they are missing, pushes the image, then creates the service with `/dashboard/api/status` as its health check. AWS charges for the running ECS tasks, load balancer, and related resources. AWS App Runner is not used because AWS stopped accepting new App Runner customers on March 31, 2026; ECS Express Mode is AWS’s recommended path for new deployments.
+
+---
+
 ## 🤗 Deploying to Hugging Face Spaces
 
 1. Create a new Space on [Hugging Face Spaces](https://huggingface.co/new-space).

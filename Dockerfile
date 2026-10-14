@@ -1,6 +1,5 @@
 # =======================================================================
-# AI-TRAFFIC-ADAPTION Production Dockerfile
-# Optimized for Local Docker and Hugging Face Spaces (Port 7860)
+# AI-TRAFFIC-ADAPTION Docker image for Hugging Face Spaces and AWS ECS
 # =======================================================================
 
 FROM python:3.11-slim
@@ -22,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Create non-root user matching Hugging Face Spaces UID specification
+# Run the application as a non-root user
 RUN useradd -m -u 1000 user
 ENV HOME=/home/user \
     PATH=/home/user/.local/bin:$PATH
@@ -47,7 +46,7 @@ RUN mkdir -p data/uploads outputs/videos state && \
 # Switch to non-root user
 USER user
 
-# Hugging Face Spaces exposes port 7860
+# Container port used by Hugging Face Spaces and the AWS ECS Express service
 EXPOSE 7860
 
 # Launch the FastAPI dashboard with REST API, WebSockets, and React SPA

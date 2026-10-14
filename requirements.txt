@@ -4,6 +4,7 @@ uvicorn[standard]>=0.28.0
 pydantic>=2.6.0
 websockets>=12.0
 python-multipart>=0.0.9
+gradio>=6.30,<7
 
 # Data Science & Machine Learning
 numpy>=1.26.0,<3.0.0
