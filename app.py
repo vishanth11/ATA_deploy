@@ -52,10 +52,21 @@ if CALIBRATED_RF_PATH.exists():
         print(f"Warning: Failed to load calibrated RF pipeline: {exc}")
 
 
+try:
+    import spaces
+except ImportError:
+    class spaces:
+        @staticmethod
+        def GPU(fn=None, duration=120):
+            if fn is None:
+                return lambda f: f
+            return fn
+
 # ---------------------------------------------------------------------------
 # Tab 1: Video Perception Handler
 # ---------------------------------------------------------------------------
 
+@spaces.GPU(duration=120)
 def run_video_perception(uploaded_file, sample_choice):
     target_path = None
     if uploaded_file is not None:
